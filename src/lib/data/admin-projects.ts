@@ -1,0 +1,5 @@
+import { hasSupabaseEnv } from "@/lib/env";
+import { demoProjects } from "@/content/demo-projects";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+export async function getAdminProjects(){if(!hasSupabaseEnv())return demoProjects;const s=await createSupabaseServerClient();const {data,error}=await s.from("projects").select("id,slug,category,status,featured,published,github_url,live_url,project_translations(locale,title,short_description,overview,problem,solution,my_role,key_features,architecture,challenges)").order("updated_at",{ascending:false});if(error)return [];return data??[];}
+export async function getAdminProject(id:string){if(!hasSupabaseEnv())return null;const s=await createSupabaseServerClient();const {data}=await s.from("projects").select("id,slug,category,status,featured,published,github_url,live_url,project_translations(locale,title,short_description,overview,problem,solution,my_role,key_features,architecture,challenges)").eq("id",id).single();return data;}

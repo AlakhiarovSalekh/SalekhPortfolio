@@ -1,0 +1,3 @@
+import { AdminShell } from "@/components/admin-shell";
+import { requireRole } from "@/lib/auth/require-role";
+export default async function Page(){const auth=await requireRole(["OWNER"]);return <AdminShell role={auth.role}><div className="admin-top"><div><span className="eyebrow">ACCESS CONTROL</span><h1>Users</h1><p>Only the Owner can create or disable Editor access. Public self-registration does not exist.</p></div></div><div className="notice">Editor invitations will use the server-only Supabase Admin API after configuration. The service-role key is never exposed to browser code.</div></AdminShell>;}
