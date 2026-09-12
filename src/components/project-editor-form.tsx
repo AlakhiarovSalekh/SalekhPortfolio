@@ -38,15 +38,15 @@ export function ProjectEditorForm({ action, project, disabled = false, submitLab
   const translation = (locale: string) => project?.project_translations?.find((row: TranslationRow) => row.locale === locale);
   const technologies = project?.project_technologies?.map((row: any) => row.technologies?.name).filter(Boolean).join(", ") ?? "";
 
-  return <form action={formAction} className="editor-form">
+  return <form action={formAction} className="editor-form" noValidate>
     {state.error && <div className="notice danger" role="alert"><strong>Could not save project.</strong><br/>{state.error}</div>}
     <div className="form-grid">
-      <label>Slug<input name="slug" defaultValue={project?.slug ?? ""} placeholder="my-project" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" maxLength={120}/></label>
+      <label>Slug <span className="muted">(optional — generated from title if empty)</span><input name="slug" defaultValue={project?.slug ?? ""} placeholder="salekhpos" maxLength={120}/></label>
       <label>Category<select name="category" defaultValue={project?.category ?? "web"}><option value="web">Web</option><option value="mobile">Mobile</option><option value="desktop">Desktop</option><option value="full-stack">Full stack</option><option value="backend">Backend</option><option value="other">Other</option></select></label>
       <label>Status<select name="status" defaultValue={project?.status ?? "in-progress"}><option value="in-progress">In progress</option><option value="active">Active</option><option value="completed">Completed</option><option value="archived">Archived</option></select></label>
       <label>Display order<input name="display_order" type="number" min="-9999" max="9999" defaultValue={project?.display_order ?? 0}/></label>
-      <label>GitHub URL<input name="github" type="url" placeholder="https://github.com/..." defaultValue={project?.github_url ?? ""}/></label>
-      <label>Live URL<input name="live" type="url" placeholder="https://..." defaultValue={project?.live_url ?? ""}/></label>
+      <label>GitHub URL<input name="github" type="text" inputMode="url" placeholder="github.com/..." defaultValue={project?.github_url ?? ""}/></label>
+      <label>Live URL<input name="live" type="text" inputMode="url" placeholder="example.com" defaultValue={project?.live_url ?? ""}/></label>
     </div>
     <label>Technologies <span className="muted">(comma separated)</span><input name="technologies" placeholder="Next.js, TypeScript, Supabase" defaultValue={technologies}/></label>
     <div className="check-row">

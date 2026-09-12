@@ -19,24 +19,30 @@ function number(fd: FormData, key: string) {
   const value = Number.parseInt(text(fd, key, 12), 10);
   return Number.isFinite(value) ? Math.max(-9999, Math.min(9999, value)) : 0;
 }
+function normalizeSlug(value: string, fallback: string) {
+  const source = (value || fallback).trim().toLowerCase();
+  const slug = source.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 120);
+  if (!slug || !slugPattern.test(slug)) throw new Error("Could not generate a valid project slug. Use English letters or numbers in the title/slug.");
+  return slug;
+}
 function optionalUrl(fd: FormData, key: string) {
-  const value = text(fd, key, 500);
-  if (!value) return null;
+  const raw = text(fd, key, 500);
+  if (!raw) return null;
+  const value = /^[a-z][a-z0-9+.-]*:\/\//i.test(raw) ? raw : `https://${raw}`;
   const parsed = new URL(value);
-  if (!["http:", "https:"].includes(parsed.protocol)) throw new Error(`${key} must use http or https.`);
+  if (!["http:", "https:"].includes(parsed.protocol)) throw new Error(`${key} must be a valid web URL.`);
   return parsed.toString();
 }
 function validateCore(fd: FormData) {
-  const slug = text(fd, "slug", 120).toLowerCase();
   const category = text(fd, "category", 30);
   const status = text(fd, "status", 30);
   const enTitle = text(fd, "en_title", 160);
   const enShort = text(fd, "en_short", 500);
-  if (!slugPattern.test(slug)) throw new Error("Slug may contain only lowercase letters, numbers and hyphens.");
+  if (!enTitle || !enShort) throw new Error("English title and short description are required.");
+  const slug = normalizeSlug(text(fd, "slug", 120), enTitle);
   if (!categories.has(category)) throw new Error("Invalid category.");
   if (!statuses.has(status)) throw new Error("Invalid status.");
-  if (!enTitle || !enShort) throw new Error("English title and short description are required.");
-  return { slug, category, status, enTitle, enShort };
+  return { slug, category, status };
 }
 function translationRows(fd: FormData) {
   return (["en", "az", "ka"] as const).map((locale) => ({
@@ -83,6 +89,7 @@ function refreshPublic() {
 export async function createProject(_previous: ProjectActionState, fd: FormData): Promise<ProjectActionState> {
   if (!hasSupabaseEnv()) return { error: "Supabase is not configured." };
   const auth = await requireRole();
+  const userId = auth.user!.id;
   let createdId: string | null = null;
   try {
     const core = validateCore(fd);
@@ -96,7 +103,7 @@ export async function createProject(_previous: ProjectActionState, fd: FormData)
       display_order: number(fd, "display_order"),
       github_url: optionalUrl(fd, "github"),
       live_url: optionalUrl(fd, "live"),
-      created_by: auth.user?.id,
+      created_by: userId,
     }).select("id").single();
     if (error || !project) throw error ?? new Error("Project creation failed.");
     createdId = project.id;
@@ -105,6 +112,7 @@ export async function createProject(_previous: ProjectActionState, fd: FormData)
     if (translations.error) throw translations.error;
     await syncTechnologies(supabase, project.id, technologyNames(fd));
   } catch (error) {
+    console.error("[admin/projects] create failed", { userId, message: error instanceof Error ? error.message : String(error) });
     if (createdId) {
       const supabase = await createSupabaseServerClient();
       await supabase.from("projects").delete().eq("id", createdId);
@@ -138,6 +146,7 @@ export async function updateProject(id: string, _previous: ProjectActionState, f
     if (translations.error) throw translations.error;
     await syncTechnologies(supabase, id, technologyNames(fd));
   } catch (error) {
+    console.error("[admin/projects] update failed", { projectId: id, message: error instanceof Error ? error.message : String(error) });
     return { error: error instanceof Error ? error.message : "Could not save project." };
   }
   refreshPublic();
