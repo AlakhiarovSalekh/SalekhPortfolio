@@ -6,10 +6,3 @@ node_modules/
 coverage/
 dist/
 *.log
-
-.env
-.env.local
-.env.*
-!.env.example
-node_modules
-.next
