@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - redesign/reference-hero-20260918
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
