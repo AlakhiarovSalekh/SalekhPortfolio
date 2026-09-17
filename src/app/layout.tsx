@@ -5,6 +5,7 @@ import "./globals.css";
 import "./premium.css";
 import "./project-visuals.css";
 import "./portrait-fix.css";
+import "./reference-home.css";
 
 const siteTitle = "Alakhiarov Salekh | Software Developer — Web, Mobile & Desktop";
 const siteDescription =
