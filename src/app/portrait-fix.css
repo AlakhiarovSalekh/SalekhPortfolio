@@ -1,51 +1,67 @@
 .portrait-stage{
-  min-height:760px!important;
+  min-height:780px!important;
   align-self:stretch!important;
   position:relative!important;
   display:flex!important;
   align-items:flex-end!important;
   justify-content:center!important;
-  overflow:hidden!important;
-  border-radius:30px!important;
-  border:1px solid rgba(117,176,255,.18)!important;
-  background:
-    radial-gradient(circle at 72% 24%,rgba(52,142,255,.24),transparent 32%),
-    linear-gradient(160deg,rgba(11,28,48,.94),rgba(3,9,17,.98))!important;
-  box-shadow:0 34px 90px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.04),0 0 80px rgba(32,116,231,.08)!important;
+  overflow:visible!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  isolation:isolate!important;
 }
 
 .portrait-stage::before{
   content:"";
   position:absolute;
-  inset:0;
-  z-index:1;
+  z-index:0;
+  width:118%;
+  height:94%;
+  right:-16%;
+  bottom:0;
   pointer-events:none;
   background:
-    linear-gradient(90deg,rgba(2,6,13,.72) 0%,rgba(2,6,13,.26) 18%,transparent 40%),
-    linear-gradient(180deg,transparent 62%,rgba(2,6,13,.5) 82%,rgba(2,6,13,.92) 100%);
+    radial-gradient(ellipse at 58% 42%,rgba(56,145,255,.28) 0%,rgba(24,74,145,.13) 34%,transparent 67%),
+    radial-gradient(ellipse at 62% 78%,rgba(33,94,196,.12),transparent 54%);
+  filter:blur(18px);
+}
+
+.portrait-stage::after{
+  content:"";
+  position:absolute;
+  z-index:4;
+  inset:auto -14% 0 -18%;
+  height:36%;
+  pointer-events:none;
+  background:linear-gradient(180deg,transparent 0%,rgba(2,6,13,.5) 58%,#02060d 100%);
 }
 
 .portrait-aura{
   z-index:0!important;
   opacity:1!important;
-  filter:blur(12px)!important;
+  filter:blur(20px)!important;
 }
 
 .portrait-grid{
   z-index:0!important;
-  opacity:.12!important;
+  opacity:.1!important;
 }
 
 .portrait-cutout{
   position:absolute!important;
-  inset:0!important;
   z-index:2!important;
+  inset:-1% -8% -4% -5%!important;
   overflow:hidden!important;
   display:block!important;
-  transform:translate3d(var(--portrait-x),var(--portrait-y),0)!important;
-  transition:transform .18s ease-out!important;
   opacity:1!important;
   visibility:visible!important;
+  transform:translate3d(var(--portrait-x),var(--portrait-y),0)!important;
+  transition:transform .18s ease-out!important;
+  will-change:transform!important;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.72) 13%,#000 28%,#000 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.72) 13%,#000 28%,#000 100%);
 }
 
 .portrait-cutout img{
@@ -55,12 +71,12 @@
   height:100%!important;
   display:block!important;
   object-fit:cover!important;
-  object-position:50% 8%!important;
+  object-position:50% 7%!important;
   opacity:1!important;
   visibility:visible!important;
-  filter:brightness(.9) contrast(1.08) saturate(.72)!important;
-  transform:scale(1.01)!important;
-  transform-origin:center center!important;
+  filter:brightness(.82) contrast(1.1) saturate(.7)!important;
+  transform:scale(1.015)!important;
+  transform-origin:center bottom!important;
   mix-blend-mode:normal!important;
 }
 
@@ -71,45 +87,63 @@
   z-index:3!important;
   pointer-events:none!important;
   background:
-    linear-gradient(90deg,rgba(2,6,13,.3) 0%,rgba(2,6,13,.06) 22%,transparent 48%),
-    linear-gradient(180deg,rgba(2,6,13,.02),transparent 58%,rgba(2,6,13,.2) 78%,rgba(2,6,13,.72) 100%)!important;
+    linear-gradient(90deg,rgba(2,6,13,.5) 0%,rgba(2,6,13,.12) 18%,transparent 43%),
+    linear-gradient(180deg,rgba(2,6,13,.04) 0%,transparent 63%,rgba(2,6,13,.18) 79%,rgba(2,6,13,.72) 100%)!important;
 }
 
 .portrait-cutout::after{
+  content:""!important;
+  position:absolute!important;
   z-index:4!important;
+  top:10%!important;
   right:2%!important;
-  opacity:.85!important;
+  width:2px!important;
+  height:50%!important;
+  background:linear-gradient(transparent,#66c4ff 24%,#418cff 72%,transparent)!important;
+  box-shadow:0 0 26px rgba(65,140,255,.8)!important;
+  opacity:.72!important;
+  pointer-events:none!important;
+}
+
+.hero-copy{
+  z-index:7!important;
 }
 
 .hero-quote,
 .hero-signature{
-  z-index:6!important;
+  z-index:7!important;
 }
 
 @media(max-width:1100px){
-  .portrait-stage{min-height:680px!important}
+  .portrait-stage{min-height:700px!important}
+  .portrait-cutout{inset:0 -10% -3% -4%!important}
 }
 
 @media(max-width:900px){
   .portrait-stage{
-    min-height:720px!important;
-    margin-top:24px!important;
+    min-height:760px!important;
+    margin-top:20px!important;
   }
   .portrait-cutout{
-    inset:0!important;
+    inset:0 -5% -2% -5%!important;
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 83%,transparent 100%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 83%,transparent 100%);
   }
   .portrait-cutout img{
-    object-position:50% 6%!important;
+    object-position:50% 5%!important;
+  }
+  .portrait-stage::after{
+    inset:auto -8% 0 -8%;
   }
 }
 
 @media(max-width:620px){
   .portrait-stage{
-    min-height:620px!important;
-    border-radius:22px!important;
+    min-height:650px!important;
+    margin-top:12px!important;
   }
   .portrait-cutout{
-    inset:0!important;
+    inset:0 -12% -1% -12%!important;
   }
   .portrait-cutout img{
     object-position:50% 4%!important;
