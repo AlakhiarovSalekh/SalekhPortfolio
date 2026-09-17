@@ -2,7 +2,6 @@ import Link from "next/link";
 import { PremiumEffects } from "@/components/premium-effects";
 import { ProjectCard } from "@/components/project-card";
 import { SiteHeader } from "@/components/site-header";
-import { portraitDataUri } from "@/content/portrait";
 import { siteConfig } from "@/content/site";
 import { getDictionary } from "@/i18n/dictionaries";
 import { localePrefix } from "@/i18n/locales";
@@ -93,7 +92,7 @@ export async function PublicHome({ locale }: { locale: Locale }) {
           <div className="hero-orbit one"/>
           <div className="hero-orbit two"/>
           <div className="portrait-cutout">
-            <img src={portraitDataUri} alt={siteConfig.name}/>
+            <img src="/salekh-portrait" alt={siteConfig.name} loading="eager" fetchPriority="high" decoding="async"/>
           </div>
           <div className="hero-quote">“{ui.quote}”</div>
           <div className="hero-signature">{ui.signature}</div>
