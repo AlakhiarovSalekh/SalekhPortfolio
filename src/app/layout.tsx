@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { env } from "@/lib/env";
 import { siteConfig } from "@/content/site";
 import "./globals.css";
+import "./premium.css";
 
 const siteTitle = "Alakhiarov Salekh | Software Developer — Web, Mobile & Desktop";
 const siteDescription =
