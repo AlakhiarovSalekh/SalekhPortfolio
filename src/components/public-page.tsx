@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { PremiumEffects } from "@/components/premium-effects";
-import { ProjectCard } from "@/components/project-card";
+import { ReferenceProjectCard } from "@/components/reference-project-card";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/content/site";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -104,7 +104,7 @@ export async function PublicHome({ locale }: { locale: Locale }) {
           <Link className="reference-all-link" href={`${prefix}/projects`}>{d.misc.allProjects}<span>→</span></Link>
         </div>
         <div className="reference-project-grid">
-          {projects.map((project) => <ProjectCard key={project.id} project={project} locale={locale}/>)}
+          {projects.map((project) => <ReferenceProjectCard key={project.id} project={project} locale={locale}/>)}
         </div>
       </section>
 
