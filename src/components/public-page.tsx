@@ -8,17 +8,6 @@ import { localePrefix } from "@/i18n/locales";
 import { getPublishedProjects } from "@/lib/data/projects";
 import type { Locale } from "@/types/project";
 
-const techs = [
-  ["JV", "Java"],
-  ["KT", "Kotlin"],
-  ["SW", "Swift"],
-  ["⚛", "React"],
-  ["N", "Next.js"],
-  ["JS", "Node.js"],
-  ["C#", "C#"],
-  ["DB", "SQL"],
-] as const;
-
 export async function PublicHome({ locale }: { locale: Locale }) {
   const d = getDictionary(locale);
   const prefix = localePrefix(locale);
@@ -27,91 +16,96 @@ export async function PublicHome({ locale }: { locale: Locale }) {
 
   const ui = locale === "az"
     ? {
-        status: "Yeni imkanlara açığam",
-        heroLead: "Real problemləri həll edən",
-        heroAccent: "proqramlar hazırlayıram.",
-        projects: "Layihə",
-        platforms: "Platforma",
-        languages: "Dil",
-        learning: "Daim öyrənirəm",
-        techLabel: "İşlədiyim texnologiyalar",
-        quote: "Yaxşı proqram sadəcə işləmir — güvən yaradır.",
-        signature: "Alakhiarov Salekh",
+        kicker: "İDEYALARI REAL MƏHSULLARA ÇEVİRİRƏM",
+        role: "Software Developer",
+        summary: "Praktik, yüksək keyfiyyətli və real problemləri həll edən proqram təminatı hazırlayıram. Web, mobile və desktop məhsullarında təmiz arxitektura, güclü istifadəçi təcrübəsi və real nəticəyə fokuslanıram.",
+        viewProjects: "Layihələrimə bax",
+        contact: "Əlaqə saxla",
+        available: "Freelance və full-time imkanlara açığam",
+        featuredLabel: "SEÇİLMİŞ LAYİHƏLƏR",
+        selectedWork: "Selected Work",
+        rail: ["IDEYALAR", "KOD", "MƏHSULLAR", "NƏTİCƏ"],
+        quote: "Daha yaxşı proqram. Daha yaxşı sabah üçün.",
       }
     : locale === "ka"
       ? {
-          status: "ღია ვარ ახალი შესაძლებლობებისთვის",
-          heroLead: "ვქმნი პროგრამულ პროდუქტებს,",
-          heroAccent: "რომლებიც რეალურ პრობლემებს წყვეტს.",
-          projects: "პროექტი",
-          platforms: "პლატფორმა",
-          languages: "ენა",
-          learning: "მუდამ ვსწავლობ",
-          techLabel: "ტექნოლოგიები",
-          quote: "კარგი პროგრამული უზრუნველყოფა ნდობას ქმნის.",
-          signature: "Alakhiarov Salekh",
+          kicker: "იდეებიდან რეალურ პროდუქტებამდე",
+          role: "Software Developer",
+          summary: "ვქმნი პრაქტიკულ და მაღალხარისხიან პროგრამულ პროდუქტებს, რომლებიც რეალურ პრობლემებს წყვეტს. ვფოკუსირდები სუფთა არქიტექტურაზე, კარგ გამოცდილებაზე და რეალურ შედეგებზე.",
+          viewProjects: "ნახე ჩემი პროექტები",
+          contact: "დამიკავშირდი",
+          available: "ღია ვარ freelance და full-time შესაძლებლობებისთვის",
+          featuredLabel: "რჩეული პროექტები",
+          selectedWork: "Selected Work",
+          rail: ["IDEAS", "CODE", "PRODUCTS", "IMPACT"],
+          quote: "უკეთესი პროგრამული უზრუნველყოფა უკეთესი ხვალისთვის.",
         }
       : {
-          status: "Available for opportunities",
-          heroLead: "I build software that solves",
-          heroAccent: "real problems.",
-          projects: "Projects",
-          platforms: "Platforms",
-          languages: "Languages",
-          learning: "Always learning",
-          techLabel: "Technologies I work with",
-          quote: "Good software does more than work — it earns trust.",
-          signature: "Alakhiarov Salekh",
+          kicker: "BUILDING IDEAS INTO REAL PRODUCTS",
+          role: "Software Developer",
+          summary: "I build practical, high-quality software that solves real problems. From web and mobile apps to desktop and enterprise systems, I focus on clean architecture, great user experience, and measurable impact.",
+          viewProjects: "View My Projects",
+          contact: "Get In Touch",
+          available: "Available for freelance & full-time opportunities",
+          featuredLabel: "FEATURED PROJECTS",
+          selectedWork: "Selected Work",
+          rail: ["IDEAS", "CODE", "PRODUCTS", "IMPACT"],
+          quote: "Better software for a brighter tomorrow.",
         };
 
   return <>
     <PremiumEffects />
     <SiteHeader locale={locale}/>
-    <main className="premium-home">
-      <section className="premium-hero shell" id="home">
-        <div className="hero-copy">
-          <div className="hero-status"><i/>{ui.status}</div>
-          <span className="eyebrow">{d.hero.eyebrow}</span>
-          <h1><span>{ui.heroLead}</span><br/><strong>{ui.heroAccent}</strong></h1>
-          <p className="hero-body">{d.hero.body}</p>
-          <div className="hero-actions">
-            <Link className="primary-button" href={`${prefix}/projects`}>{d.hero.primary} →</Link>
-            <a className="secondary-button" href="#contact">{d.hero.secondary}</a>
+    <main className="reference-home">
+      <section className="reference-hero" id="home">
+        <div className="reference-hero-backdrop"/>
+        <div className="reference-hero-inner shell">
+          <div className="reference-copy">
+            <div className="reference-kicker"><span>{ui.kicker}</span><i/></div>
+            <h1>{siteConfig.name}</h1>
+            <div className="reference-role">{ui.role}</div>
+            <p className="reference-summary">{ui.summary}</p>
+            <div className="reference-actions">
+              <Link className="reference-primary" href={`${prefix}/projects`}>{ui.viewProjects}<span>→</span></Link>
+              <a className="reference-secondary" href="#contact">{ui.contact}<span>✉</span></a>
+            </div>
+            <div className="reference-meta">
+              <span className="reference-location">⌖ <b>{siteConfig.location}</b></span>
+              <span className="reference-separator"/>
+              <span className="reference-available"><i/>{ui.available}</span>
+            </div>
           </div>
-          <div className="hero-stats" aria-label="Portfolio highlights">
-            <div className="hero-stat"><strong>{allProjects.length}+</strong><span>{ui.projects}</span></div>
-            <div className="hero-stat"><strong>3</strong><span>{ui.platforms}</span></div>
-            <div className="hero-stat"><strong>3</strong><span>{ui.languages}</span></div>
-            <div className="hero-stat"><strong>∞</strong><span>{ui.learning}</span></div>
-          </div>
-        </div>
 
-        <div className="portrait-stage" aria-label={`${siteConfig.name} portrait`}>
-          <div className="portrait-aura"/>
-          <div className="portrait-grid"/>
-          <div className="hero-orbit one"/>
-          <div className="hero-orbit two"/>
-          <div className="portrait-cutout">
-            <img src="/salekh-portrait" alt={siteConfig.name} loading="eager" fetchPriority="high" decoding="async"/>
+          <div className="reference-portrait" aria-label={`${siteConfig.name} portrait`}>
+            <div className="portrait-light"/>
+            <img
+              src="/salekh-portrait.webp"
+              alt={siteConfig.name}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
           </div>
-          <div className="hero-quote">“{ui.quote}”</div>
-          <div className="hero-signature">{ui.signature}</div>
+
+          <aside className="reference-rail" aria-hidden="true">
+            <div className="reference-rail-words">{ui.rail.map((word) => <span key={word}>{word}</span>)}</div>
+            <div className="reference-rail-line"/>
+            <blockquote>“{ui.quote}”</blockquote>
+          </aside>
         </div>
       </section>
 
-      <div className="tech-marquee shell" aria-label={ui.techLabel}>
-        <div className="tech-marquee-inner">
-          <div className="tech-label"><i/>{ui.techLabel}</div>
-          {techs.map(([symbol, name]) => <div className="tech-item" key={name}><span className="tech-symbol">{symbol}</span>{name}</div>)}
+      <section className="reference-work shell" data-reveal>
+        <div className="reference-work-head">
+          <div>
+            <span className="reference-section-label">{ui.featuredLabel}</span>
+            <h2>{ui.selectedWork}</h2>
+          </div>
+          <Link className="reference-all-link" href={`${prefix}/projects`}>{d.misc.allProjects}<span>→</span></Link>
         </div>
-      </div>
-
-      <section className="section shell" data-reveal>
-        <div className="section-heading">
-          <div><span className="eyebrow">01 / WORK</span><h2>{d.sections.featured}</h2><p>{d.sections.featuredBody}</p></div>
-          <Link className="text-link" href={`${prefix}/projects`}>{d.misc.allProjects} →</Link>
+        <div className="reference-project-grid">
+          {projects.map((project) => <ProjectCard key={project.id} project={project} locale={locale}/>)}
         </div>
-        <div className="project-grid">{projects.map((project) => <ProjectCard key={project.id} project={project} locale={locale}/>)}</div>
       </section>
 
       <section className="section shell" data-reveal="delay-1">
